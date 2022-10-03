@@ -1,31 +1,19 @@
 #include "matrix.h"
 #include "rgb_matrix.h"
 #include "bw_matrix.h"
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
 
-void GenMatrix(Matrix& mat, int min = 0, int max = 255) {
-    for (size_t r = 0; r < mat.getRows(); ++r) {
-        for (size_t c = 0; c < mat.getCols(); ++c) {
-            for (size_t ch = 0; ch < mat.getChannels(); ++ch) {
-                mat.at(r, c, ch) = min + std::rand() % (max - min + 1);
-            }
-        }
-    }
-}
+#include "rasterization_utils.h"
 
 int main() {
-    RGBMatrix rgb;
-    BWMatrix bw;
-    bw.readImage("images/hse_bw.png");
-    rgb.readImage("images/hse_rgb.png");
-    bw.display();
+    RGBMatrix rgb(1000, 1000);
+
+    auto points = internal::RenderRectangle({150, 150}, {750, 350}, {614, 520}, {110, 500});
+
+    for (const auto& point: points) {
+        rgb.at(point.y(), point.x()) = 255;
+    }
+
     rgb.display();
 
-    BWMatrix inverted = bw.invert();
-    inverted.display();
-    BWMatrix newBW = rgb.toBW();
-    newBW.display();
     return 0;
 }
