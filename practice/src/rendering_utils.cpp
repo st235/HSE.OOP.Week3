@@ -110,13 +110,13 @@ std::vector<Point> RenderRectangle(Point lb, int32_t width, int32_t height) {
     Point v2(lb.x() + width, lb.y() + height);
     Point v3(lb.x(), lb.y() + height);
 
-    std::vector<Point> lb_triangle = RenderTriangle(v0, v1, v2);
+    std::vector<Point> result = RenderTriangle(v0, v1, v2);
+
     std::vector<Point> rt_triangle = RenderTriangle(v0, v2, v3);
 
-    std::vector<Point> result;
-
-    result.insert(result.end(), lb_triangle.begin(), lb_triangle.end());
-    result.insert(result.end(), rt_triangle.begin(), rt_triangle.end());
+    for (Point& point: rt_triangle) {
+        result.emplace_back(point);
+    }
 
     return std::move(result);
 }

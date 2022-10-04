@@ -32,10 +32,17 @@ BWMatrix BWMatrix::invert() const
 }
 
 void BWMatrix::draw(const Shape& shape) {
-    std::vector<Point> points = shape.getPoints();
+    if (!shape.overlaps(0 /* bottom */, 
+        0 /* left */, 
+        m_rows - 1 /** top **/, 
+        m_cols - 1 /** right **/)) {
+        return;
+    }
+
+    const std::vector<Point>& points = shape.getPoints();
     Color* color = shape.getColor();
 
-    for (Point& point: points) {
+    for (const Point& point: points) {
         if (!point.isWithin(0 /* bottom */, 
         0 /* left */, 
         m_rows - 1 /** top **/, 

@@ -29,6 +29,6 @@ Point& Point::operator=(const Point&& that) {
     return *this;
 }
 
-bool Point::isWithin(int32_t bottom, int32_t left, int32_t top, int32_t right) {
+bool Point::isWithin(int32_t bottom, int32_t left, int32_t top, int32_t right) const {
     return _x >= left && _x <= right && _y >= bottom && _y <= top;
 }

@@ -10,9 +10,23 @@
 #include "triangle.h"
 
 #include <iostream>
+#include <chrono>
+
+using Time = std::chrono::high_resolution_clock;
+using ns = std::chrono::nanoseconds;
+
+void measure(std::function<void(void)> runnable) {
+    Time::time_point start = Time::now();
+
+    runnable();
+
+    Time::time_point end = Time::now();
+    double duration_ms =std::chrono::duration_cast<ns>(end - start).count() * 10e-6;
+    std::cout << "Execution time: " << duration_ms << " ms." << std::endl;
+}
 
 void DrawMushroom() {
-        int bgColor = 255;
+    int bgColor = 255;
     int capColor = 179;
     int stipeColor = 128;
     int bottomColor = 52;
@@ -41,7 +55,6 @@ void DrawMushroom() {
 void DrawHouse() {
     RGBMatrix rgb(2000, 2000, 0);
     RGBColor rgbColor(102, 205, 255);
-    // std::cout << "channel: " << (unsigned int)Color::GetChannel(rgbColor.getValue(), Color::Channel::RED) << std::endl;
     Rectangle sky({0, 0}, 2000, 1500, rgbColor);
     rgbColor.changeColor(0, 153, 0);
     Rectangle grass({0, 1500}, 2000, 2000, rgbColor);
@@ -79,6 +92,8 @@ void DrawHouse() {
     rgb.draw(window2);
     rgb.display();
 }
+
+
 
 int main() {
     DrawMushroom();

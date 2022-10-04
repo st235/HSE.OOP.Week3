@@ -20,7 +20,7 @@ public:
     inline int32_t x() const { return _x; }
     inline int32_t y() const { return _y; }
 
-    bool isWithin(int32_t bottom, int32_t left, int32_t top, int32_t right);
+    bool isWithin(int32_t bottom, int32_t left, int32_t top, int32_t right) const;
 
 };
 

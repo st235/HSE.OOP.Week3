@@ -14,8 +14,10 @@ protected:
 public:
   Shape(std::vector<Point> points, Color& color);
 
-  inline std::vector<Point> getPoints() const { return _points; }
+  inline const std::vector<Point>& getPoints() const { return _points; }
   inline Color* getColor() const { return _color; }
+
+  virtual bool overlaps(int32_t bottom, int32_t left, int32_t top, int32_t right) const = 0;
 
   virtual ~Shape() {
     delete _color;
