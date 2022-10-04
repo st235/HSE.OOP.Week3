@@ -8,17 +8,19 @@ private:
     int32_t _x;
     int32_t _y;
 
-    Point(const Point& that) = delete;
-    Point& operator=(const Point& that) = delete;
-
 public:
     Point(int32_t x, int32_t y);
+
+    Point(const Point& that);
+    Point& operator=(const Point& that);
 
     Point(const Point&& that);
     Point& operator=(const Point&& that);
 
     inline int32_t x() const { return _x; }
     inline int32_t y() const { return _y; }
+
+    bool isWithin(int32_t bottom, int32_t left, int32_t top, int32_t right);
 
 };
 

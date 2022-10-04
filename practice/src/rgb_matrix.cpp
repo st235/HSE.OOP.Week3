@@ -33,6 +33,24 @@ BWMatrix RGBMatrix::toBW() const
     return res;
 }
 
+void RGBMatrix::draw(const Shape& shape) {
+    std::vector<Point> points = shape.getPoints();
+    Color* color = shape.getColor();
+
+    for (Point& point: points) {
+        if (!point.isWithin(0 /* bottom */, 
+        0 /* left */, 
+        m_rows - 1 /** top **/, 
+        m_cols - 1 /** right **/)) {
+            continue;
+        }
+
+        at(point.y(), point.x(), 0) = Color::GetChannel(color->getValue(), Color::Channel::RED);
+        at(point.y(), point.x(), 1) = Color::GetChannel(color->getValue(), Color::Channel::GREEN);
+        at(point.y(), point.x(), 2) = Color::GetChannel(color->getValue(), Color::Channel::BLUE);
+    }
+}
+
 void RGBMatrix::print() const
 {
     std::cout << *this << std::endl;

@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include "shape.h"
+
 #include <vector>
 #include <iostream>
 
@@ -24,6 +26,8 @@ public:
     inline int& at(size_t row, size_t col, size_t channel = 0) {
         return m_data[row * m_cols * m_channels + col * m_channels + channel];
     }
+
+    virtual void draw(const Shape& shape) = 0;
 
     virtual void print() const = 0;
     virtual void fromOpenCV(const cv::Mat& mat) = 0;

@@ -1,7 +1,12 @@
 #include "bw_matrix.h"
 
+#include "color.h"
+#include "point.h"
+
+#include <cstdint>
 #include <iomanip>
 #include <iostream>
+#include <vector>
 
 BWMatrix::BWMatrix()
     : Matrix(0, 0, 1)
@@ -24,6 +29,22 @@ BWMatrix BWMatrix::invert() const
     BWMatrix res = *this - 255;
     res = res * (-1);
     return res;
+}
+
+void BWMatrix::draw(const Shape& shape) {
+    std::vector<Point> points = shape.getPoints();
+    Color* color = shape.getColor();
+
+    for (Point& point: points) {
+        if (!point.isWithin(0 /* bottom */, 
+        0 /* left */, 
+        m_rows - 1 /** top **/, 
+        m_cols - 1 /** right **/)) {
+            continue;
+        }
+
+        at(point.y(), point.x()) = color->getValue();
+    }
 }
 
 void BWMatrix::print() const

@@ -12,6 +12,8 @@ public:
     RGBMatrix(size_t rows, size_t cols);
     RGBMatrix(size_t rows, size_t cols, int initVal);
 
+    void draw(const Shape& shape) override;
+
     void print() const override;
     void fromOpenCV(const cv::Mat& mat) override;
     cv::Mat toOpenCV() const override;

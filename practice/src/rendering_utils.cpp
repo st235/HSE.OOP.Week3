@@ -1,4 +1,4 @@
-#include "rasterization_utils.h"
+#include "rendering_utils.h"
 
 #include <cmath>
 
@@ -23,22 +23,11 @@ float GetDistance(int32_t x0, int32_t y0, int32_t x1, int32_t y1) {
     return std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
 }
 
-bool GreaterAngle(int32_t x0, int32_t y0, int32_t x1, int32_t y1) {
-        double aatan2 = std::atan2(y0, x0);
-        double batan2 = std::atan2(y1, x1);
-
-        if (aatan2 - batan2 > std::numeric_limits<double>::epsilon()) {
-            return true;
-        }
-
-        return false;
-}
-
 } // namespace
 
 namespace internal {
 
-std::vector<Point> RenderCircle(Point&& center, int32_t radius) {
+std::vector<Point> RenderCircle(Point center, int32_t radius) {
     std::vector<Point> points;
 
     int32_t left = center.x() - radius;
@@ -53,8 +42,7 @@ std::vector<Point> RenderCircle(Point&& center, int32_t radius) {
             bool inside = (distance < radius);
 
             if (inside) {
-                Point current(x, y);
-                points.emplace_back(std::move(current));
+                points.push_back({x, y});
             }
         }
     }
@@ -62,7 +50,7 @@ std::vector<Point> RenderCircle(Point&& center, int32_t radius) {
     return points;
 }
 
-std::vector<Point> RenderTriangle(Point&& v0, Point&& v1, Point&& v2) {
+std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2) {
     std::vector<Point> points;
 
     // bubble sort vertices by y
@@ -79,8 +67,7 @@ std::vector<Point> RenderTriangle(Point&& v0, Point&& v1, Point&& v2) {
         // height01 is 0,
         // therefore v0 and v1 are on the same line
         for (int32_t x = std::min(v0.x(), v1.x()); x <= std::max(v0.x(), v1.x()); x++) {
-            Point current(x, v0.y());
-            points.emplace_back(std::move(current));
+            points.push_back({x, v0.y()});
         }
     } else {
         // traverse the first half of the triangle
@@ -90,8 +77,7 @@ std::vector<Point> RenderTriangle(Point&& v0, Point&& v1, Point&& v2) {
             int32_t x1 = float(y - v0.y()) / float(height) * (v2.x() - v0.x()) + v0.x();
 
             for (int32_t x = std::min(x0, x1); x <= std::max(x0, x1); x++) {
-                Point current(x, y);
-                points.emplace_back(std::move(current));
+                points.push_back({x, y});
             }
         }
     }
@@ -100,8 +86,7 @@ std::vector<Point> RenderTriangle(Point&& v0, Point&& v1, Point&& v2) {
         // height12 is 0,
         // therefore v1 and v2 are on the same line
         for (int32_t x = std::min(v1.x(), v2.x()); x <= std::max(v1.x(), v2.x()); x++) {
-            Point current(x, v1.y());
-            points.emplace_back(std::move(current));
+            points.push_back({x, v1.y()});
         }
     } else {
         // traverse the second half of the triangle
@@ -111,8 +96,7 @@ std::vector<Point> RenderTriangle(Point&& v0, Point&& v1, Point&& v2) {
             int32_t x1 = float(y - v0.y()) / float(height) * (v2.x() - v0.x()) + v0.x();
 
             for (int32_t x = std::min(x0, x1); x <= std::max(x0, x1); x++) {
-                Point current(x, y);
-                points.emplace_back(std::move(current));
+                points.push_back({x,  y});
             }
         }
     }
@@ -120,32 +104,21 @@ std::vector<Point> RenderTriangle(Point&& v0, Point&& v1, Point&& v2) {
     return std::move(points);
 }
 
-std::vector<Point> RenderRectangle(Point&& v0, Point&& v1, Point&& v2, Point&& v3) {
-    std::vector<Point> points;
+std::vector<Point> RenderRectangle(Point lb, int32_t width, int32_t height) {
+    Point v0(lb);
+    Point v1(lb.x() + width, lb.y());
+    Point v2(lb.x() + width, lb.y() + height);
+    Point v3(lb.x(), lb.y() + height);
 
-    // bubble sort vertices by polar angle
-    if (GreaterAngle(v0.x(), v0.y(), v1.x(), v1.y())) std::swap(v0, v1);
-    if (GreaterAngle(v0.x(), v0.y(), v2.x(), v2.y())) std::swap(v0, v2);
-    if (GreaterAngle(v0.x(), v0.y(), v3.x(), v3.y())) std::swap(v0, v3);
-    if (GreaterAngle(v1.x(), v1.y(), v2.x(), v2.y())) std::swap(v1, v2);
-    if (GreaterAngle(v1.x(), v1.y(), v3.x(), v3.y())) std::swap(v1, v3);
-    if (GreaterAngle(v2.x(), v2.y(), v3.x(), v3.y())) std::swap(v2, v3);
+    std::vector<Point> lb_triangle = RenderTriangle(v0, v1, v2);
+    std::vector<Point> rt_triangle = RenderTriangle(v0, v2, v3);
 
-    Point c1(v1.x(), v1.y());
-    Point c2(v2.x(), v2.y());
+    std::vector<Point> result;
 
-    std::vector<Point> tr1 = RenderTriangle(std::move(v0), std::move(v1), std::move(v2));
-    std::vector<Point> tr2 = RenderTriangle(std::move(c1), std::move(c2), std::move(v3));
+    result.insert(result.end(), lb_triangle.begin(), lb_triangle.end());
+    result.insert(result.end(), rt_triangle.begin(), rt_triangle.end());
 
-    for (auto&& point: tr1) {
-        points.emplace_back(std::move(point));
-    }
-
-    for (auto&& point: tr2) {
-        points.emplace_back(std::move(point));
-    }
-
-    return points;
+    return std::move(result);
 }
 
 } // namespace internal
