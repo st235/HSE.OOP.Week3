@@ -33,7 +33,7 @@ BWMatrix RGBMatrix::toBW() const
     return res;
 }
 
-void RGBMatrix::draw(const Shape& shape) {
+void RGBMatrix::draw(Shape& shape) {
     if (!shape.overlaps(0 /* bottom */, 
         0 /* left */, 
         m_rows - 1 /** top **/, 

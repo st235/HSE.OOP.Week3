@@ -27,9 +27,7 @@ float GetDistance(int32_t x0, int32_t y0, int32_t x1, int32_t y1) {
 
 namespace internal {
 
-std::vector<Point> RenderCircle(Point center, int32_t radius) {
-    std::vector<Point> points;
-
+void RenderCircle(Point center, int32_t radius, std::vector<Point>& result) {
     int32_t left = center.x() - radius;
     int32_t right = center.x() + radius;
 
@@ -42,17 +40,13 @@ std::vector<Point> RenderCircle(Point center, int32_t radius) {
             bool inside = (distance < radius);
 
             if (inside) {
-                points.push_back({x, y});
+                result.push_back({x, y});
             }
         }
     }
-
-    return points;
 }
 
-std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2) {
-    std::vector<Point> points;
-
+void RenderTriangle(Point v0, Point v1, Point v2, std::vector<Point>& result) {
     // bubble sort vertices by y
     if (v0.y() > v1.y()) std::swap(v0, v1);
     if (v0.y() > v2.y()) std::swap(v0, v2);
@@ -67,7 +61,7 @@ std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2) {
         // height01 is 0,
         // therefore v0 and v1 are on the same line
         for (int32_t x = std::min(v0.x(), v1.x()); x <= std::max(v0.x(), v1.x()); x++) {
-            points.push_back({x, v0.y()});
+            result.push_back({x, v0.y()});
         }
     } else {
         // traverse the first half of the triangle
@@ -77,7 +71,7 @@ std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2) {
             int32_t x1 = float(y - v0.y()) / float(height) * (v2.x() - v0.x()) + v0.x();
 
             for (int32_t x = std::min(x0, x1); x <= std::max(x0, x1); x++) {
-                points.push_back({x, y});
+                result.push_back({x, y});
             }
         }
     }
@@ -86,7 +80,7 @@ std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2) {
         // height12 is 0,
         // therefore v1 and v2 are on the same line
         for (int32_t x = std::min(v1.x(), v2.x()); x <= std::max(v1.x(), v2.x()); x++) {
-            points.push_back({x, v1.y()});
+            result.push_back({x, v1.y()});
         }
     } else {
         // traverse the second half of the triangle
@@ -96,29 +90,20 @@ std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2) {
             int32_t x1 = float(y - v0.y()) / float(height) * (v2.x() - v0.x()) + v0.x();
 
             for (int32_t x = std::min(x0, x1); x <= std::max(x0, x1); x++) {
-                points.push_back({x,  y});
+                result.push_back({x,  y});
             }
         }
     }
-
-    return std::move(points);
 }
 
-std::vector<Point> RenderRectangle(Point lb, int32_t width, int32_t height) {
+void RenderRectangle(Point lb, int32_t width, int32_t height, std::vector<Point>& result) {
     Point v0(lb);
     Point v1(lb.x() + width, lb.y());
     Point v2(lb.x() + width, lb.y() + height);
     Point v3(lb.x(), lb.y() + height);
 
-    std::vector<Point> result = RenderTriangle(v0, v1, v2);
-
-    std::vector<Point> rt_triangle = RenderTriangle(v0, v2, v3);
-
-    for (Point& point: rt_triangle) {
-        result.emplace_back(point);
-    }
-
-    return std::move(result);
+    RenderTriangle(v0, v1, v2, result);
+    RenderTriangle(v0, v2, v3, result);
 }
 
 } // namespace internal

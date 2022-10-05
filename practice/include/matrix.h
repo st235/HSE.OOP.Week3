@@ -27,7 +27,7 @@ public:
         return m_data[row * m_cols * m_channels + col * m_channels + channel];
     }
 
-    virtual void draw(const Shape& shape) = 0;
+    virtual void draw(Shape& shape) = 0;
 
     virtual void print() const = 0;
     virtual void fromOpenCV(const cv::Mat& mat) = 0;
@@ -49,4 +49,4 @@ protected:
     std::vector<int> m_data;
 };
 
-#endif // MATRIX_Hj
+#endif // MATRIX_H

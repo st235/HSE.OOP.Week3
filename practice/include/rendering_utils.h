@@ -8,14 +8,14 @@
 
 namespace internal {
 
-std::vector<Point> RenderCircle(Point center, int32_t radius);
+void RenderCircle(Point center, int32_t radius, std::vector<Point>& result);
 
 /**
  * Sweep line algorithm.
  */
-std::vector<Point> RenderTriangle(Point v0, Point v1, Point v2);
+void RenderTriangle(Point v0, Point v1, Point v2, std::vector<Point>& result);
 
-std::vector<Point> RenderRectangle(Point lb, int32_t width, int32_t height);
+void RenderRectangle(Point lb, int32_t width, int32_t height, std::vector<Point>& result);
 
 } // namespace internal
 

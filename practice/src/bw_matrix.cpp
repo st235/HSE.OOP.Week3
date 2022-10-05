@@ -31,7 +31,7 @@ BWMatrix BWMatrix::invert() const
     return res;
 }
 
-void BWMatrix::draw(const Shape& shape) {
+void BWMatrix::draw(Shape& shape) {
     if (!shape.overlaps(0 /* bottom */, 
         0 /* left */, 
         m_rows - 1 /** top **/, 

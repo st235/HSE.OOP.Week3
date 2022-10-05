@@ -12,9 +12,11 @@ private:
   int32_t _width;
   int32_t _height;
 
+protected:
+  void obtainPoints(std::vector<Point>& result) const override;
+
 public:
   Rectangle(Point lb, int32_t width, int32_t height, Color& color);
-  bool overlaps(int32_t bottom, int32_t left, int32_t top, int32_t right) const override;
 };
 
 #endif // RECTANGLE_H

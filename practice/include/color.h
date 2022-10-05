@@ -13,6 +13,7 @@ public:
   };
 
   virtual uint32_t getValue() const = 0;
+
   virtual Color* deepCopy() const = 0;
 
   virtual ~Color() = default;
