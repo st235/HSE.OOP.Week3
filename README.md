@@ -13,7 +13,7 @@ You may want to
 | ------------- | ------------- |
 | [![code](examples/mushroom/image.png)](examples/mushroom/code.cpp) | [![code](examples/house/image.png)](examples/house/code.cpp) |
 
-### Abstraction
+### Abstractions
 
 | Semi Circle  | Concentric Suns | Two Dots |
 | ------------- | ------------- | ------------- |
