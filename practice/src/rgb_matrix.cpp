@@ -34,6 +34,10 @@ BWMatrix RGBMatrix::toBW() const
 }
 
 void RGBMatrix::draw(Shape& shape) {
+    // Small optimization:
+    // if framing bounds of the shape are
+    // completely out of viewport the method skips
+    // them.
     if (!shape.overlaps(0 /* bottom */, 
         0 /* left */, 
         m_rows - 1 /** top **/, 

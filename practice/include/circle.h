@@ -9,13 +9,13 @@
 class Circle: public Shape {
 private:
   Point _center;
-  int32_t _radius;
+  uint32_t _radius;
 
 protected:
   void obtainPoints(std::vector<Point>& result) const override;
 
 public:
-  Circle(Point center, int32_t radius, Color& color);
+  Circle(Point center, uint32_t radius, Color& color);
 };
 
 #endif // CIRCLE_H
