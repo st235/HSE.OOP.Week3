@@ -1,9 +1,9 @@
 .DS_Store
-practice/build
-practice/cmake-build-debug
-practice/cmake-build-Debug
-practice/cmake-build-release
-practice/cmake-build-Release
-practice/compile_commands.json
-practice/.vscode
-practice/.idea
+src/build
+src/cmake-build-debug
+src/cmake-build-Debug
+src/cmake-build-release
+src/cmake-build-Release
+src/compile_commands.json
+src/.vscode
+src/.idea
