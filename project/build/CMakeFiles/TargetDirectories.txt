@@ -1,4 +1,0 @@
-/Users/alexanderdadukin/Documents/Projects/HSE/OOP/HSE.OOP.Week3/practice/build/CMakeFiles/rebuild_cache.dir
-/Users/alexanderdadukin/Documents/Projects/HSE/OOP/HSE.OOP.Week3/practice/build/CMakeFiles/edit_cache.dir
-/Users/alexanderdadukin/Documents/Projects/HSE/OOP/HSE.OOP.Week3/practice/build/CMakeFiles/runner.dir
-/Users/alexanderdadukin/Documents/Projects/HSE/OOP/HSE.OOP.Week3/practice/build/CMakeFiles/OOPcourse.dir
