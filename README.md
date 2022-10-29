@@ -1,7 +1,6 @@
 # HSE. Object-Oriented Programming. C++ Final Project.
 
 Hello my fellow classmates 👋
-This project is a C++ final project from the Object Oriented Programming course.
 
 ## Build
 
@@ -23,25 +22,23 @@ make -j7
 
 The project structure is quite basic and exactly the same as was introduced in the course.
 
-The main folder is the `project` folder. There you will find two subfolders: `include` with headers and `src` with implementations.
+The main folder is the `project` folder. You will find two subfolders there: `include` with headers and `src` with implementations.
 
-You may find that the following classes have been introduced:
+You may find that the following logic has been implemented there:
 
-- Color: the abstract color class. Treats all colors as unsigned 32 bits integers. Provides two methods: deepCopy and getValue. 
+- Color: the abstract color class. Treats all colors as unsigned 32 bits integers. Provides two methods: deepCopy and getValue.
   - RgbColor: treats colors as unsigned 32 bits integer: bits [0-7] are unused (can be potentially used for alpha channel), bits [8-15] are for Red channel, [16-23] are for Green, and [24-31] are for Blue.
-  - BwColor: uses the same 32 bits integers, however, all of bits are unused, except [16-23].
-- Shape
-  - Circle: takes square area and checks if a dot is within the circle;
-  - Rectange: consists of 2 triangles;
-  - Triangle: uses sweep lines algorithm to render the triangles. The algorithm fills the triangle row-by-row (row is a horizontal row of pixels).
-- RenderingUtils: the main utility in the project as provides useful methods to "draw" circles, rectanges, and triangles. 
-- Point
+  - BwColor: uses the same 32 bits integers, however, vast majority of bits are unused, except [16-23].
+- Shape:
+  - Circle: takes square area around the center and checks if a dot from this area is within the circle;
+  - Rectange: consists of 2 triangles, and delegates rendering calls to triangles;
+  - Triangle: uses the [sweep lines algorithm](https://en.wikipedia.org/wiki/Sweep_line_algorithm) to render a triangle. The algorithm fills the triangle row-by-row (row is a horizontal row of pixels).
+- RenderingUtils: the main utility in the project. Provides methods to "draw" circles, rectanges, and triangles, described above.
+- Point: 2d vector.
 
 ## Test samples
 
-This section provides code samples to draw some pictures and either check my implementation or test/compare yours.
-
-You can find actual code samples by **clicking on the images**.
+This section provides code samples to draw images. You can use it to either check my implementation or test/compare yours.
 
 ### Default set
 
@@ -65,7 +62,7 @@ I took the liberty of providing more examples to test the code. Hopefully, you'l
 
 ### Text set
 
-This test sample was a nightmare, therefore this is the only test in this set 😅 
+This test sample was a nightmare, therefore this is the only test in this set 😅
 
 | Alex |
 | ------------- |
